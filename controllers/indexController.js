@@ -1,16 +1,18 @@
 const { catchAsyncErrors } = require("../middleware/catchAsyncErrors");
 const Student = require("../models/studentModel");
+const { sendtoken } = require("../utils/SendToken");
 exports.nitesh = catchAsyncErrors(async (req, res, next) => {
-  res.json({ message: "hello from me" });
+  res.json({ message: "Secure Home Page" });
+});
+
+exports.currentUser=catchAsyncErrors(async (req, res, next) => {
+  const student=await Student.findById(req.id).exec();
+  res.json({ student });
 });
 
 exports.studentSignup = catchAsyncErrors(async (req, res, next) => {
   const student = await new Student(req.body).save(); 
-  res.status(201).json({
-    success: true,
-    message: "Student created successfully",
-    student,
-  });
+  sendtoken(student,201,res);
 });
 
 exports.studentSignin = catchAsyncErrors(async (req, res, next) => {
@@ -23,7 +25,7 @@ exports.studentSignin = catchAsyncErrors(async (req, res, next) => {
   if(!isMatch){
     return next(new ErrorHandler("Password is incorrect", 401));
   }
-  res.json(student);
+  sendtoken(student,201,res);
 });
 
 exports.studentSignout = catchAsyncErrors(async (req, res, next) => {
