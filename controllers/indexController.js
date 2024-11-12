@@ -1,5 +1,7 @@
 const { catchAsyncErrors } = require("../middleware/catchAsyncErrors");
 const Student = require("../models/studentModel");
+const ErrorHandler = require("../utils/ErrorHandler");
+const { sendmail } = require("../utils/nodemailer");
 const { sendtoken } = require("../utils/SendToken");
 exports.nitesh = catchAsyncErrors(async (req, res, next) => {
   res.json({ message: "Secure Home Page" });
@@ -35,3 +37,16 @@ exports.studentSignout = catchAsyncErrors(async (req, res, next) => {
     message: "Student logged out successfully",
   });
 });
+
+exports.studentsendmail=catchAsyncErrors(async(req,res,next)=>{
+  const student=await Student.findOne({email:req.body.email});
+  if(!student){
+    return next(new ErrorHandler("Student not found with this email address", 404));
+  }
+
+  const url=`${req.protocol}://${req.get("host")}/student/forget-link/${student._id}`
+  await sendmail(req,res,next,url)
+
+  res.status(200).json({ message: "Mail sent successfully", student, url });
+
+})
