@@ -24,11 +24,15 @@ const studentModel = new mongoose.Schema(
       //     "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
       // ],
     },
+    resetPasswordToken:{
+      type:String,
+      default:"0"
+    },
   },
   { timestamps: true }
 );
 
-studentModel.pre("save", function () {
+studentModel.pre("save", function (next) {
   if (!this.isModified("password")) {
     return next();
   }

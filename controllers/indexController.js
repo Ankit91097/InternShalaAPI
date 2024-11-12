@@ -7,27 +7,31 @@ exports.nitesh = catchAsyncErrors(async (req, res, next) => {
   res.json({ message: "Secure Home Page" });
 });
 
-exports.currentUser=catchAsyncErrors(async (req, res, next) => {
-  const student=await Student.findById(req.id).exec();
+exports.currentUser = catchAsyncErrors(async (req, res, next) => {
+  const student = await Student.findById(req.id).exec();
   res.json({ student });
 });
 
 exports.studentSignup = catchAsyncErrors(async (req, res, next) => {
-  const student = await new Student(req.body).save(); 
-  sendtoken(student,201,res);
+  const student = await new Student(req.body).save();
+  sendtoken(student, 201, res);
 });
 
 exports.studentSignin = catchAsyncErrors(async (req, res, next) => {
-  const student = await Student.findOne({ email: req.body.email }).select("+password").exec();
+  const student = await Student.findOne({ email: req.body.email })
+    .select("+password")
+    .exec();
 
-  if(!student){
-    return next(new ErrorHandler("Student not found with this email address", 404));
+  if (!student) {
+    return next(
+      new ErrorHandler("Student not found with this email address", 404)
+    );
   }
   const isMatch = student.comparePassword(req.body.password);
-  if(!isMatch){
+  if (!isMatch) {
     return next(new ErrorHandler("Password is incorrect", 401));
   }
-  sendtoken(student,201,res);
+  sendtoken(student, 201, res);
 });
 
 exports.studentSignout = catchAsyncErrors(async (req, res, next) => {
@@ -38,15 +42,35 @@ exports.studentSignout = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-exports.studentsendmail=catchAsyncErrors(async(req,res,next)=>{
-  const student=await Student.findOne({email:req.body.email});
-  if(!student){
-    return next(new ErrorHandler("Student not found with this email address", 404));
+exports.studentsendmail = catchAsyncErrors(async (req, res, next) => {
+  const student = await Student.findOne({ email: req.body.email });
+  if (!student) {
+    return next(
+      new ErrorHandler("Student not found with this email address", 404)
+    );
   }
 
-  const url=`${req.protocol}://${req.get("host")}/student/forget-link/${student._id}`
-  await sendmail(req,res,next,url)
+  const url = `${req.protocol}://${req.get("host")}/student/forget-link/${
+    student._id
+  }`;
+  await sendmail(req, res, next, url);
+  student.resetPasswordToken = "1";
+  student.save();
 
   res.status(200).json({ message: "Mail sent successfully", student, url });
+});
 
-})
+exports.studentforgetlink = catchAsyncErrors(async (req, res, next) => {
+  const student = await Student.findById(req.params.id);
+  if (!student) {
+    return next(
+      new ErrorHandler("Student not found with this email address", 404)
+    );
+  }
+
+  student.password = req.body.password;
+  await student.save();
+  res.status(200).json({
+    message: "Password has been successfully changed",
+  });
+});
