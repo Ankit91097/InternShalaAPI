@@ -12,5 +12,4 @@ exports.sendtoken = (student, statusCode, res) => {
     id: student._id,
     token,
   });
-  res.json({ token });
 };
