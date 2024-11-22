@@ -38,14 +38,17 @@ studentModel.pre("save", function (next) {
   }
   const salt = bcrypt.genSaltSync(10);
   this.password = bcrypt.hashSync(this.password, salt);
+  next();
 });
 studentModel.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-studentModel.methods.getjwttoken = function () {
-  return jwt.sign({id:this._id},process.env.JWT_SECRET,{
-    expiresIn:process.env.JWT_EXPIRE
-  })
+studentModel.methods.getjwttoken = function () {  
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
 };
-module.exports = mongoose.model("Student", studentModel);
+
+const Student = mongoose.model("Student", studentModel);
+module.exports = Student;
