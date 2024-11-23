@@ -12,7 +12,7 @@ exports.sendmail = (req,res,next,url) => {
     },
   });
   const mailOptions = {
-    from: "Ankit Privat Limited",
+    from: "Ankit Private Limited",
     to:req.body.email,
     subject:"Password Reset Link",
     // "text":"Do not share this link to anyone",

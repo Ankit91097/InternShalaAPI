@@ -84,7 +84,7 @@ exports.studentforgetlink = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.studentresetpassword=catchAsyncErrors(async(req,res)=>{
-  const student=Student.findById(req.id).exec()
+  const student= await Student.findById(req.id).exec()
   student.password=req.body.password;
   await student.save();
 
