@@ -67,14 +67,14 @@ exports.studentforgetlink = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler("Student not found with this email address", 404)
     );
   }
-  if(student.resetPasswordToken=="1"){
-    student.resetPasswordToken="0";
-    student.password=req.body.password;
+  if (student.resetPasswordToken == "1") {
+    student.resetPasswordToken = "0";
+    student.password = req.body.password;
     await student.save();
-  }else{
+  } else {
     return next(
-      new ErrorHandler("Invalid Reset Password Link Please Try again",500)
-    )
+      new ErrorHandler("Invalid Reset Password Link Please Try again", 500)
+    );
   }
   student.password = req.body.password;
   await student.save();
@@ -83,11 +83,22 @@ exports.studentforgetlink = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-exports.studentresetpassword=catchAsyncErrors(async(req,res)=>{
-  const student= await Student.findById(req.id).exec()
-  student.password=req.body.password;
+exports.studentresetpassword = catchAsyncErrors(async (req, res) => {
+  const student = await Student.findById(req.id).exec();
+  student.password = req.body.password;
   await student.save();
 
-  sendtoken(student,201,res);
+  sendtoken(student, 201, res);
+});
 
-})
+exports.studentUpdate = catchAsyncErrors(async (req, res, next) => {
+  const student = await Student.findByIdAndUpdate(
+    req.params.id,
+    req.body
+  ).exec();
+  res.status(200).json({
+    success: true,
+    message: "Student Updated Successfully",
+    student
+  });
+});

@@ -7,7 +7,8 @@ const {
   currentUser,
   studentsendmail,
   studentforgetlink,
-  studentresetpassword
+  studentresetpassword,
+  studentUpdate
 } = require("../controllers/indexController");
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/auth");
@@ -16,6 +17,7 @@ const { isAuthenticated } = require("../middleware/auth");
 //GET request
 router.get("/", isAuthenticated, nitesh);
 
+//POST request
 router.post("/me", isAuthenticated, currentUser);
 
 //POST /student/signup
@@ -35,5 +37,8 @@ router.get("/student/forget-link/:id", studentforgetlink);
 
 // POST /student/reset-password
 router.post("/student/reset-password/:id",isAuthenticated, studentresetpassword);
+
+// POST /student/update/:student:id
+router.post("/student/update/:id",isAuthenticated,studentUpdate);
 
 module.exports = router;
