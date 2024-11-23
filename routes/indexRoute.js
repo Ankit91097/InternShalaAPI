@@ -19,30 +19,30 @@ const { isAuthenticated } = require("../middleware/auth");
 router.get("/", isAuthenticated, nitesh);
 
 //POST request
-router.post("/me", isAuthenticated, currentUser);
+router.post("/current", isAuthenticated, currentUser);
 
-//POST /student/signup
-router.post("/student/signup", studentSignup);
+//POST /signup
+router.post("/signup", studentSignup);
 
-//POST /student/signin
-router.post("/student/signin", studentSignin);
+//POST /signin
+router.post("/signin", studentSignin);
 
-//GET /student/signout
-router.get("/student/signout", isAuthenticated, studentSignout);
+//GET /signout
+router.get("/signout", isAuthenticated, studentSignout);
 
-//POST /student/send-mail
-router.post("/student/send-mail", studentsendmail);
+//POST /send-mail
+router.post("/send-mail", studentsendmail);
 
-// GET /student/forget-link/student._id
-router.get("/student/forget-link/:id", studentforgetlink);
+// GET /forget-link/:student._id
+router.get("/forget-link/:id", studentforgetlink);
 
-// POST /student/reset-password
+// POST /reset-password/:student._id
 router.post("/student/reset-password/:id",isAuthenticated, studentresetpassword);
 
-// POST /student/update/:student:id
-router.post("/student/update/:id",isAuthenticated,studentUpdate);
+// POST /update/:student._id
+router.post("/update/:id",isAuthenticated,studentUpdate);
 
-// POST /student/avatar/:student:id
-router.post("/student/avatar/:id",isAuthenticated,studentAvatar);
+// POST /avatar/:student._id
+router.post("/avatar/:id",isAuthenticated,studentAvatar);
 
 module.exports = router;

@@ -35,7 +35,9 @@ app.use(cookieparser());
 const fileupload=require('express-fileupload');
 app.use(fileupload());
 
-app.use("/", require("./routes/indexRoute"));
+//routes
+app.use("/student", require("./routes/indexRoute"));
+app.use("/resume", require("./routes/resumeRoutes"));
 
 app.all("*",(req,res,next)=>{
   next(new ErrorHandler(`Page not found ${req.url}`,404))
