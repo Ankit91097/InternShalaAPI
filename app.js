@@ -31,6 +31,10 @@ app.use(session({
 }));
 app.use(cookieparser());
 
+//express file-upload used for uploading file or image
+const fileupload=require('express-fileupload');
+app.use(fileupload());
+
 app.use("/", require("./routes/indexRoute"));
 
 app.all("*",(req,res,next)=>{

@@ -1,30 +1,31 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { type } = require("os");
 
 const studentModel = new mongoose.Schema(
   {
-    firstname:{
+    firstname: {
       type: String,
       required: [true, "Firstname is required"],
     },
-    lastname:{
+    lastname: {
       type: String,
       required: [true, "Lastname is required"],
     },
-    contact:{
+    contact: {
       type: String,
       required: [true, "Contact is required"],
-      maxLength:[10,"Contact must not exceed 10 character"],
-      minLength:[10,"Contact should be atleast 10 character long"]
+      maxLength: [10, "Contact must not exceed 10 character"],
+      minLength: [10, "Contact should be atleast 10 character long"],
     },
-    city:{
+    city: {
       type: String,
       required: [true, "City is required"],
     },
-    gender:{
+    gender: {
       type: String,
-      enum:["Male","Female","Others"],
+      enum: ["Male", "Female", "Others"],
     },
     email: {
       type: String,
@@ -42,15 +43,21 @@ const studentModel = new mongoose.Schema(
       maxLength: [15, "Password must be less than 15 characters"],
       minLength: [6, "Password must be at least 6 characters"],
       // match: [
-        //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        //     "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
-        // ],
+      //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      //     "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+      // ],
+    },
+    resetPasswordToken: {
+      type: String,
+      default: "0",
+    },
+    avatar: {
+      type: Object,
+      default: {
+        fileId: "",
+        url: "https://images.unsplash.com/photo-1732254721629-bf8275f694e6?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
-      resetPasswordToken:{
-        type:String,
-        default:"0"
-      },
-      avatar:String,
+    },
   },
   { timestamps: true }
 );
@@ -67,7 +74,7 @@ studentModel.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-studentModel.methods.getjwttoken = function () {  
+studentModel.methods.getjwttoken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
