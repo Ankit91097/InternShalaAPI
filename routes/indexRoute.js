@@ -37,7 +37,7 @@ router.post("/send-mail", studentsendmail);
 router.get("/forget-link/:id", studentforgetlink);
 
 // POST /reset-password/:student._id
-router.post("/student/reset-password/:id",isAuthenticated, studentresetpassword);
+router.post("/reset-password/:id",isAuthenticated, studentresetpassword);
 
 // POST /update/:student._id
 router.post("/update/:id",isAuthenticated,studentUpdate);

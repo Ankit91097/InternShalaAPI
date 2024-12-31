@@ -32,6 +32,8 @@ const {
 //GET /
 router.get("/", isAuthenticated, resume);
 
+// ------------------------Education-----------------
+
 //POST /addedu
 router.post("/addedu", isAuthenticated, addEducation);
 
@@ -41,6 +43,8 @@ router.post("/edit-edu/:eduid", isAuthenticated, updateEducation);
 //POST /delete-edu/:eduid          uuid
 router.post("/delete-edu/:eduid", isAuthenticated, deleteEducation);
 
+// ------------------------Job-----------------
+
 //POST /addjob
 router.post("/addjob", isAuthenticated, addJobs);
 
@@ -49,6 +53,8 @@ router.post("/edit-job/:jobid", isAuthenticated, updateJobs);
 
 //POST /delete-job/:jobid          uuid
 router.post("/delete-job/:jobid", isAuthenticated, deleteJobs);
+
+// ------------------------Internship-----------------
 
 //POST /addinternship
 router.post("/addinternship", isAuthenticated, addInternship);
@@ -67,6 +73,8 @@ router.post(
   deleteInternship
 );
 
+// ------------------------Responsibilities-----------------
+
 //POST /addresponsibilities
 router.post("/addresponsibilities", isAuthenticated, addResponsibilities);
 
@@ -84,6 +92,8 @@ router.post(
   deleteResponsibilities
 );
 
+// ------------------------Courses-----------------
+
 //POST /addcourses
 router.post("/addcourses", isAuthenticated, addCourses);
 
@@ -92,6 +102,8 @@ router.post("/edit-courses/:coursesid", isAuthenticated, updateCourses);
 
 //POST /delete-courses/:coursesid          uuid
 router.post("/delete-courses/:coursesid", isAuthenticated, deleteCourses);
+
+// ------------------------Projects-----------------
 
 //POST /addprojects
 router.post("/addprojects", isAuthenticated, addProjects);
@@ -102,6 +114,8 @@ router.post("/edit-projects/:projectsid", isAuthenticated, updateProjects);
 //POST /delete-projects/:projectsid          uuid
 router.post("/delete-projects/:projectsid", isAuthenticated, deleteProjects);
 
+// ------------------------Skills-----------------
+
 //POST /addskills
 router.post("/addskills", isAuthenticated, addSkills);
 
@@ -110,6 +124,8 @@ router.post("/edit-skills/:skillsid", isAuthenticated, updateSkills);
 
 //POST /delete-skills/:skillsid          uuid
 router.post("/delete-skills/:skillsid", isAuthenticated, deleteSkills);
+
+// ------------------------Accomplishment-----------------
 
 //POST /addaccomplishment
 router.post("/addaccomplishment", isAuthenticated, addAccomplishment);
