@@ -10,6 +10,7 @@ const {
   employeeresetpassword,
   employeeUpdate,
   organizationlogo,
+  createInternship,
 } = require("../controllers/employeeController");
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/auth");
@@ -42,7 +43,11 @@ router.post("/reset-password/:id",isAuthenticated, employeeresetpassword);
 // POST /update/:employee._id
 router.post("/update/:id",isAuthenticated,employeeUpdate);
 
-// POST /avatar/:employee._id
+// POST /organizationlogo/:emloyee._id
 router.post("/organizationlogo/:id",isAuthenticated,organizationlogo);
+
+
+// POST /internship/create
+router.post("/internship/create",isAuthenticated,createInternship);
 
 module.exports = router;

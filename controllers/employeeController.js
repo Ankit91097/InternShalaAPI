@@ -5,6 +5,7 @@ const { sendmail } = require("../utils/nodemailer");
 const { sendtoken } = require("../utils/SendToken");
 const path = require("path");
 const { InitImageKit } = require("../utils/imagekit");
+const Internship = require("../models/internshipModel");
 const imagekit = InitImageKit();
 
 exports.nitesh = catchAsyncErrors(async (req, res, next) => {
@@ -144,4 +145,16 @@ exports.organizationlogo = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
+});
+
+
+//----------------Create Internship--------------
+
+exports.createInternship = catchAsyncErrors(async (req, res, next) => {
+  const internship = await new Internship(req.body).save();
+  res.status(201).json({
+    success:true,
+    message:"Internship Created Successfully",
+    internship
+  })
 });
