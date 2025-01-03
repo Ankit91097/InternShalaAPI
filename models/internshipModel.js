@@ -2,6 +2,16 @@ const mongoose = require("mongoose");
 
 const internshipModel = mongoose.Schema(
   {
+    student: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student",
+      },
+    ],
+    employee: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
+    },
     profile: String,
     skill: String,
     internshiptype: {
@@ -18,10 +28,10 @@ const internshipModel = mongoose.Schema(
         type: String,
         enum: ["Fixed", "Negotiable", "Performance based", "Unpaid"],
       },
-      amount:Number,
+      amount: Number,
     },
-    perks:String,
-    assessments:String
+    perks: String,
+    assessments: String,
   },
   { timeStamp: true }
 );

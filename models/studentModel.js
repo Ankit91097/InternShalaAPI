@@ -57,16 +57,28 @@ const studentModel = new mongoose.Schema(
         url: "https://images.unsplash.com/photo-1732254721629-bf8275f694e6?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
     },
-    resume:{
-      education:[],
-      jobs:[],
-      internships:[],
-      responsibilities:[],
-      courses:[],
-      projects:[],
-      skills:[],
-      accomplishment:[]
-    }
+    resume: {
+      education: [],
+      jobs: [],
+      internships: [],
+      responsibilities: [],
+      courses: [],
+      projects: [],
+      skills: [],
+      accomplishment: [],
+    },
+    internships: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "internship",
+      },
+    ],
+    jobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "job",
+      },
+    ],
   },
   { timestamps: true }
 );
