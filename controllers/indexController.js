@@ -5,6 +5,8 @@ const { sendmail } = require("../utils/nodemailer");
 const { sendtoken } = require("../utils/SendToken");
 const path = require("path");
 const { InitImageKit } = require("../utils/imagekit");
+const Internship = require("../models/internshipModel");
+const Job = require("../models/jobModel");
 const imagekit = InitImageKit();
 
 exports.nitesh = catchAsyncErrors(async (req, res, next) => {
@@ -144,4 +146,28 @@ exports.studentAvatar = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
+});
+
+
+// ----------------Apply Internship-----------
+exports.applyInternship = catchAsyncErrors(async (req, res, next) => {
+  const student = await Student.findById(req.id).exec();
+  const internship = await Internship.findById(req.params.id).exec();
+  console.log(student,internship)
+  student.internships.push(internship._id);
+  internship.students.push(student._id);
+  await student.save();
+  await internship.save()
+  res.json({ student,internship });
+});
+
+// ----------------Apply Job-----------
+exports.applyJob = catchAsyncErrors(async (req, res, next) => {
+  const student = await Student.findById(req.id).exec();
+  const job = await Job.findById(req.params.id).exec();
+  student.jobs.push(job._id);
+  job.students.push(student._id);
+  await student.save();
+  await job.save()
+  res.json({ student,job });
 });
